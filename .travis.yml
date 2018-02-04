@@ -11,6 +11,8 @@ r_packages:
   - tidyverse
   - testthat
   - glue
+  - latex2exp
+r_github_packages:
   - sebkopf/isotopia
 os:
   - linux
