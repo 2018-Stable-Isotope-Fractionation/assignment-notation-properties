@@ -1,10 +1,11 @@
 ---
-title: "Assignment Template"
+title: "Isotope notation and properties"
 date: "`r format(Sys.Date(), '%d %b %Y')`"
 output:
   html_document: 
     df_print: paged
     toc: yes
+    toc_depth: 2
     toc_float: true
     code_folding: show
 editor_options:
@@ -13,31 +14,184 @@ editor_options:
 
 ```{r "setup", warning=FALSE, message=FALSE}
 library(tidyverse)
-```
-
-# Question 1
-
-> This RMD file should create no linting or rendering errors.
-
-```{r "mpg"}
-(my_mpg <- mpg)
+library(isotopia)
 ```
 
 
-# Code checks
+# 1. Isotope notation
+
+Notes: 
+ - you can use isotopia functions to check your results but should do the calculations manually to practice the formulas
+ - the inline latex equations should be rendered when you rest your mouse over them
+
+## 1A: R and F
+
+### I
+
+Given a sample x with a $\delta^{34}S$ value of -35.5‰ (relative to the sulfur standard Canon Diablo Troilite (CDT)) and $\delta^{15}N$ value of +3.8‰ (relative to the standard Air), calculate $^{34}R$, $^{15}R$, $^{34}F$ and $^{15}F$. You can search the relevant information about the standards online or use the values provided in `isotopia`. Store the resulting values in variables `ratio_34`, `ab_34`, `ratio_15` and `ab_15`, for the ratios and fractional abundances respectively. 
+
+#### Answer:
+
+```{r}
+# ratio_34 <-
+# ab_34 <- 
+# ratio_15 <- 
+# ab_15 <- 
+```
+
+### II
+
+Which of these four values in only approximate based on the information provided? 
+
+#### Answer:
+
+
+
+## 1B: R and $\delta$
+
+In the old days before introduction of suitable standards, isotope ratios were often reported as absolute ratios of the light / heavy isotope. You encounter a 32S/34S ratio of 22.57 in an old paper. Given that the absolute ratio of the modern sulfur standard Canon Diablo Troilite (CDT) is known, what is the $\delta^{34}S$ (vs. CDT) of this old sample? Store the resulting value (in permil) in variable `delta_34`.
+
+#### Answer:
+
+```{r}
+
+```
+
+## 1C: Reference frame shifts
+
+For many isotope systems, several common standards are in active use depending on which one is closest to a typical sample being measured. In the case of hydrogen, VSMOW is used as the international reference 0 with other standards' values reported relative to it. One common standard used in measurements of isotopically light samples is SLAP (*Standard Light Antarctic Precipitation*), which has $\delta^2H$ value of -428‰ relative to VSMOW. 
+
+### I
+
+A colleague gives you the $\delta^2H$ values of two samples as 923.2‰ and 573.2‰ relative to SLAP. What is the isotopic composition of the two samples in the VSMOW reference frame? Store the resulting vector (2 values, in permil) in variable `delta_2`.
+
+#### Answer:
+
+```{r}
+
+```
+
+### II
+
+What do you notice about the difference between the two samples ($\delta{}_1 - \delta{}_2$) in the different reference frames? What causes this?
+
+#### Answer:
+
+
+
+# 2. Fractionation factor approximations
+
+For a system containing two components $A$ and $B$: assume $\delta^{2}H_A = 0$, and allow $\delta^{2}H_B$ to vary between -200 and +200 ‰ in 0.1 ‰ intervals (i.e. from -0.2 to +0.2 by 0.0001 steps). Hint: use the `seq()` function for this.
+
+## 2A: Calculating fractionation factors
+
+Calculate $\alpha_{A/B}$, $\epsilon_{A/B}$, $\ln \alpha_{A/B}$, and $\Delta_{A/B}$. Do all calculations within a data frame and store the result in variable `frac_data`. The calculated columns should be named `alpha_AB`, `esp_AB`, `ln_alpha_AB` and `Delta_AB`. Hint: the function to calculate a natural log (ln) is `log()`.
+
+#### Answer:
+
+```{r, warning=FALSE}
+
+```
+
+## 2B: Plotting the fractionation factors
+
+Plot `esp_AB`, `ln_alpha_AB` and `Delta_AB` (the ys) vs. `alpha_AB` (the x). Color the lines by the name of each y. Store the resulting plot in variable `p_2B`. Hint: use dplyr's `gather()` function to get the multiple ys into a format that's easy to work with using `ggplot` aesthetics.
+
+#### Answer:
+
+```{r}
+
+```
+
+## 2C: Approximation errors
+
+### I
+
+Calculate the errors of the $\ln \alpha_{A/B}$, and $\Delta_{A/B}$ approximations (compared to $\epsilon_{A/B}$) as new columns in your data frame (called `Delta_AB_err` and `ln_alpha_AB_err`, respectively) and store the resulting data frame in a new variable `frac_data_with_errors`. 
+
+#### Answer:
+
+```{r}
+
+```
+
+### II
+
+At what point (i.e. at what $\epsilon_{A/B}$ value - to **2 significant digits**) do the errors of the $\ln \alpha_{A/B}$, and $\Delta_{A/B}$ approximations first become unacceptable (>=0.1 ‰ or >=0.0001 without units)? Hint: use the `abs()` function to calculate absolute values in combination with dplyr's `filter()` and `arrange()` functions. The `signif()` function may also come in handy.
+
+#### Answer:
+
+For $\Delta_{AB}$ the error is first greater than 0.1 ‰ when the fractionation reaches $\epsilon_{A/B}$ of ???
+
+For $\ln\alpha_{AB}$ the error is first greater than 0.1 ‰ when the fractionation reaches $\epsilon_{A/B}$ of ???
+
+```{r}
+
+```
+
+### III - Bonus [optional]
+
+Write out the equation for the analytical solution for when the $\epsilon_{A/B} - \Delta_{A/B}$ error reaches 0.1 ‰ and use it to calculate the exact $\epsilon_{A/B}$ values. Hint: check your earlier plot to determine if you need to set up the equation as $\epsilon_{A/B} - \Delta_{A/B}$ = 0.1 ‰ OR = -0.1 ‰ (i.e. is the different always positive or always negative?), and remember that $\delta^{2}H_A = 0$.
+
+#### Answer:
+
+$$
+
+$$
+
+```{r}
+
+```
+
+
+## 2D: Isotope systen dependence
+
+Does the accuracy of these approximations depend on the isotope system? (I.e. would you get the same result for when the error gets to 0.1‰ if this was in $\delta^{13}C$ space). Why or why not? 
+
+#### Answer:
+
+
+
+
+# 3. Isotope properties
+
+## 3A: Isotopologues
+
+Water has several different stable isotopologues due to the existence of 2 stable isotope of hydrogen and 3 stable isotopes of oxygen. What are the 3 isotopologues of water with the same mass? 
+ 
+#### Answer:
+ 
+  1. 
+  2. 
+  3. 
+
+## 3B: Properties
+ 
+The boiling point of pure H2O is 100.00 C - would you expect pure D2O to boil at a higher or lower temperature? Why?
+
+#### Answer:
+
+
+
+
+# 4. Code checks
 
 > The following are automated tests for Travis. Run the chunk to see if your code is complete and passes all the tests. The chunk will stop at the first test that does not pass. If you get an error, see if you can figure out what might be missing in your code (do not edit this chunk!). Once all tests run without errors, the file knits successfully (`Knit to HTML` in the `Knit` menu), and your code passes linting (`Lint current file` command from the `Addins` menu) without warnings, your assignment is ready for submission.
 
 ```{r "tests", echo = FALSE, warning=FALSE, message=FALSE}
-library(testthat)
-library(glue)
+source(file.path("libs", "test_functions.R"))
 
-msg <- function(q, ...) glue("Problem in question {q}: ", ..., ".")
-
-expect_true(
-  exists("my_mpg"), 
-  info = msg("1", "'my_mpg' object should exist but does not")
-)
+expect_value("1A", ratio_34, 0.04340732, 5)
+expect_value("1A", ab_34, 0.04160151, 2)
+expect_value("1A", ratio_15, 0.003690973, 5)
+expect_value("1A", ab_15, 0.003677399, 5)
+expect_value("1B", delta_34, -15.51824, 3)
+expect_value("1C", delta_2, c(100.0704, -100.1296), 3)
+expect_df_columns("2A", frac_data, 
+                  c("alpha_AB", "eps_AB", "ln_alpha_AB", "Delta_AB"))
+expect_class("2B", p_2b, "ggplot")
+expect_df_columns("2C", frac_data_with_errors,
+                  c("Delta_AB_err", "ln_alpha_AB_err"))
 ```
 
 
