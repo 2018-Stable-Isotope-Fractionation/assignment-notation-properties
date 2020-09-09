@@ -20,23 +20,23 @@ library(isotopia)
 
 # 1. Isotope notation
 
-Notes: 
+Note: 
  - you can use isotopia functions to check your results but should do the calculations manually to practice the formulas
- - the inline latex equations should be rendered when you rest your mouse over them
+ - the inline latex equations (e.g. $\delta^{18}O$) should be rendered when you rest your mouse over them
 
 ## 1A: R and F
 
 ### I
 
-Given a sample x with a $\delta^{34}S$ value of -35.5‰ (relative to the sulfur standard Canon Diablo Troilite (CDT)) and $\delta^{15}N$ value of +3.8‰ (relative to the standard Air), calculate $^{34}R$, $^{15}R$, $^{34}F$ and $^{15}F$. You can search the relevant information about the standards online or use the values provided in `isotopia`. Store the resulting values in variables `ratio_34`, `ab_34`, `ratio_15` and `ab_15`, for the ratios and fractional abundances respectively. 
+Given a sample x with a $\delta^{34/32}S$ value of -35.5‰ (relative to the sulfur standard **Canon Diablo Troilite (CDT)**) and $\delta^{15/14}N$ value of +3.8‰ (relative to the standard **Air**), calculate $^{34}R$, $^{15}R$, $^{34}F$ and $^{15}F$. CDT has a 34S/32S ratio of 0.045005. Air has a 15N/14N ratio of 0.003677. Store the resulting values in variables `ratio_34`, `ab_34`, `ratio_15` and `ab_15`, for the ratios and fractional abundances respectively. 
 
 #### Answer:
 
 ```{r}
-# ratio_34 <-
-# ab_34 <- 
 # ratio_15 <- 
 # ab_15 <- 
+# ratio_34 <-
+# ab_34 <- 
 ```
 
 ### II
@@ -49,7 +49,7 @@ Which of these four values in only approximate based on the information provided
 
 ## 1B: R and $\delta$
 
-In the old days before introduction of suitable standards, isotope ratios were often reported as absolute ratios of the light / heavy isotope. You encounter a 32S/34S ratio of 22.57 in an old paper. Given that the absolute ratio of the modern sulfur standard Canon Diablo Troilite (CDT) is known, what is the $\delta^{34}S$ (vs. CDT) of this old sample? Store the resulting value (in permil) in variable `delta_34`.
+In the old days before introduction of suitable standards, isotope ratios were often reported as ratios of the light / heavy isotope. You encounter a 32S/34S ratio of 22.57 in an old paper. Using the 34S/32S ratio of the modern sulfur standard **Canon Diablo Troilite (CDT)**, what is the $\delta^{34}S$ (vs. CDT) of this old sample? Store the resulting value (in permil) in variable `delta_34`.
 
 #### Answer:
 
@@ -85,7 +85,7 @@ For a system containing two components $A$ and $B$: assume $\delta^{2}H_A = 0$, 
 
 ## 2A: Calculating fractionation factors
 
-Calculate $\alpha_{A/B}$, $\epsilon_{A/B}$, $\ln \alpha_{A/B}$, and $\Delta_{A/B}$. Do all calculations within a data frame and store the result in variable `frac_data`. The calculated columns should be named `alpha_AB`, `esp_AB`, `ln_alpha_AB` and `Delta_AB`. Hint: the function to calculate a natural log (ln) is `log()`.
+Calculate $\alpha_{A/B}$, $\epsilon_{A/B}$, $\ln \alpha_{A/B}$, and $\Delta_{A/B}$. Do all calculations within a data frame (tibble) and store the result in variable `frac_data`. The calculated columns should be named `alpha_AB`, `eps_AB`, `ln_alpha_AB` and `Delta_AB`. Hint: the function to calculate a natural log (ln) is `log()`.
 
 #### Answer:
 
@@ -95,7 +95,7 @@ Calculate $\alpha_{A/B}$, $\epsilon_{A/B}$, $\ln \alpha_{A/B}$, and $\Delta_{A/B
 
 ## 2B: Plotting the fractionation factors
 
-Plot `esp_AB`, `ln_alpha_AB` and `Delta_AB` (the ys) vs. `alpha_AB` (the x). Color the lines by the name of each y. Store the resulting plot in variable `p_2B`. Hint: use dplyr's `gather()` function to get the multiple ys into a format that's easy to work with using `ggplot` aesthetics.
+Plot `eps_AB`, `ln_alpha_AB` and `Delta_AB` (the ys) vs. `alpha_AB` (the x). Color the lines by the name of each y. Store the resulting plot in variable `p_2B`. Hint: use tidyr's `pivot_longer()` function to get the multiple ys into a format that's easy to work with using `ggplot` aesthetics.
 
 #### Answer:
 
@@ -152,35 +152,13 @@ Does the accuracy of these approximations depend on the isotope system? (I.e. wo
 
 
 
+# 3. Code checks
 
-# 3. Isotope properties
+> The following are automated tests. Run the chunk to see if your code is complete and passes all the tests. The chunk will stop at the first test that does not pass. If you get an error, see if you can figure out what might be missing in your code (do not edit this chunk!). Once all tests run without errors, the file knits successfully (`Knit to HTML` in the `Knit` menu - `Cmd`+`Shift`+`K`), your assignment is ready for submission. Don't forget to lint the file too (`Lint current file` command from the `Addins` menu - shortcut `Alt/Option`+`Shift`+`L`).
 
-## 3A: Isotopologues
-
-Water has several different stable isotopologues due to the existence of 2 stable isotope of hydrogen and 3 stable isotopes of oxygen. What are the 3 isotopologues of water with the same mass? 
- 
-#### Answer:
- 
-  1. 
-  2. 
-  3. 
-
-## 3B: Properties
- 
-The boiling point of pure H2O is 100.00 C - would you expect pure D2O to boil at a higher or lower temperature? Why?
-
-#### Answer:
-
-
-
-
-# 4. Code checks
-
-> The following are automated tests for Travis. Run the chunk to see if your code is complete and passes all the tests. The chunk will stop at the first test that does not pass. If you get an error, see if you can figure out what might be missing in your code (do not edit this chunk!). Once all tests run without errors, the file knits successfully (`Knit to HTML` in the `Knit` menu), and your code passes linting (`Lint current file` command from the `Addins` menu) without warnings, your assignment is ready for submission.
 
 ```{r "tests", echo = FALSE, warning=FALSE, message=FALSE}
 source(file.path("libs", "test_functions.R"))
-
 expect_value("1A", ratio_34, 0.04340732, 5)
 expect_value("1A", ab_34, 0.04160151, 2)
 expect_value("1A", ratio_15, 0.003690973, 5)
