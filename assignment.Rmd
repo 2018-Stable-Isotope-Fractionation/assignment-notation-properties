@@ -95,7 +95,7 @@ Calculate $\alpha_{A/B}$, $\epsilon_{A/B}$, $\ln \alpha_{A/B}$, and $\Delta_{A/B
 
 ## 2B: Plotting the fractionation factors
 
-Plot `eps_AB`, `ln_alpha_AB` and `Delta_AB` (the ys) vs. `alpha_AB` (the x). Color the lines by the name of each y. Store the resulting plot in variable `p_2B`. Hint: use tidyr's `pivot_longer()` function to get the multiple ys into a format that's easy to work with using `ggplot` aesthetics.
+Plot `eps_AB`, `ln_alpha_AB` and `Delta_AB` (the ys) vs. `alpha_AB` (the x). Color the lines by the name of each y. Store the resulting plot in variable `p_2b`. Hint: use tidyr's `pivot_longer()` function to get the multiple ys into a format that's easy to work with using `ggplot` aesthetics.
 
 #### Answer:
 
