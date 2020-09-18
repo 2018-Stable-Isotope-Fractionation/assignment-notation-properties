@@ -1,5 +1,5 @@
 ---
-title: "Isotope notation and properties"
+title: "Isotope notation review"
 date: "`r format(Sys.Date(), '%d %b %Y')`"
 output:
   html_document: 
